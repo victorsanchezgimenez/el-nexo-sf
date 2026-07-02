@@ -1,0 +1,2366 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="El Nexo SF, tienda TCG, juegos de mesa, rol, wargames y eventos en Sant Feliu de Llobregat. Pokemon, One Piece, Naruto, Lorcana, Topps, Dragon Shield y Ultra Pro.">
+    <title>El Nexo SF | Tienda TCG en Sant Feliu</title>
+    <style>
+      :root {
+        --nexo-black: #080806;
+        --nexo-ink: #11100d;
+        --nexo-panel: #181510;
+        --nexo-panel-2: #221d14;
+        --nexo-gold: #d6b05b;
+        --nexo-gold-deep: #9b7330;
+        --nexo-cream: #f5e8c4;
+        --nexo-muted: #c5b996;
+        --nexo-line: rgba(214, 176, 91, 0.22);
+        --nexo-wine: #4f1d19;
+        --nexo-ruby: #8a332b;
+        --nexo-steel: #73746c;
+        --radius: 18px;
+        --radius-small: 12px;
+        --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+        color-scheme: dark;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          linear-gradient(90deg, rgba(214, 176, 91, 0.04) 1px, transparent 1px),
+          linear-gradient(rgba(214, 176, 91, 0.035) 1px, transparent 1px),
+          var(--nexo-black);
+        background-size: 44px 44px;
+        color: var(--nexo-cream);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 18% 8%, rgba(214, 176, 91, 0.2), transparent 24rem),
+          radial-gradient(circle at 86% 18%, rgba(138, 51, 43, 0.22), transparent 22rem),
+          linear-gradient(180deg, rgba(8, 8, 6, 0.1), #080806 78%);
+        z-index: -1;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .shell {
+        width: min(100% - 32px, 1180px);
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid var(--nexo-line);
+        background: rgba(8, 8, 6, 0.82);
+        backdrop-filter: blur(18px);
+      }
+
+      .nav {
+        min-height: 74px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        width: 92px;
+        height: auto;
+        filter: drop-shadow(0 0 16px rgba(214, 176, 91, 0.22));
+      }
+
+      .brand-copy {
+        display: none;
+      }
+
+      .menu-toggle {
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--nexo-line);
+        border-radius: 50%;
+        background: rgba(214, 176, 91, 0.08);
+        color: var(--nexo-cream);
+        display: grid;
+        place-items: center;
+      }
+
+      .menu-toggle span,
+      .menu-toggle span::before,
+      .menu-toggle span::after {
+        display: block;
+        width: 18px;
+        height: 2px;
+        border-radius: 999px;
+        background: currentColor;
+        content: "";
+      }
+
+      .menu-toggle span::before {
+        transform: translateY(-6px);
+      }
+
+      .menu-toggle span::after {
+        transform: translateY(4px);
+      }
+
+      .nav-links,
+      .nav-actions {
+        display: none;
+      }
+
+      .mobile-panel {
+        display: none;
+        border-top: 1px solid var(--nexo-line);
+        padding: 14px 0 18px;
+      }
+
+      .mobile-panel.is-open {
+        display: block;
+      }
+
+      .mobile-panel a {
+        display: block;
+        padding: 13px 0;
+        color: var(--nexo-muted);
+        font-weight: 800;
+      }
+
+      .mobile-actions {
+        display: flex;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .icon-button {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--nexo-line);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.035);
+        color: var(--nexo-gold);
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .icon-button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(214, 176, 91, 0.62);
+        background: rgba(214, 176, 91, 0.1);
+      }
+
+      .cart-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        min-width: 20px;
+        height: 20px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: var(--nexo-ruby);
+        color: white;
+        font-size: 0.72rem;
+        font-weight: 900;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        min-height: calc(100svh - 74px);
+        display: grid;
+        align-items: end;
+        padding: 44px 0 28px;
+      }
+
+      .hero-backdrop {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+      }
+
+      .hero-backdrop img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.48;
+      }
+
+      .hero-backdrop::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(8, 8, 6, 0.4), rgba(8, 8, 6, 0.9) 70%, #080806),
+          linear-gradient(90deg, rgba(8, 8, 6, 0.9), rgba(8, 8, 6, 0.34) 50%, rgba(8, 8, 6, 0.88));
+      }
+
+      .hero-grid {
+        display: grid;
+        gap: 34px;
+      }
+
+      .eyebrow {
+        width: fit-content;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        border: 1px solid var(--nexo-line);
+        border-radius: 999px;
+        padding: 8px 13px;
+        background: rgba(17, 16, 13, 0.72);
+        color: var(--nexo-gold);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--nexo-ruby);
+        box-shadow: 0 0 20px rgba(138, 51, 43, 0.9);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .hero h1 {
+        max-width: 920px;
+        margin-top: 18px;
+        font-size: 3.25rem;
+        line-height: 0.88;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .hero h1 span {
+        color: var(--nexo-gold);
+      }
+
+      .hero-text {
+        max-width: 680px;
+        margin-top: 14px;
+        color: var(--nexo-muted);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .cta-row {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .btn {
+        min-height: 50px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid transparent;
+        padding: 0 20px;
+        font-weight: 900;
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--nexo-gold), #f1d386);
+        color: #12100b;
+        box-shadow: 0 18px 38px rgba(214, 176, 91, 0.23);
+      }
+
+      .btn-secondary {
+        border-color: var(--nexo-line);
+        background: rgba(17, 16, 13, 0.74);
+        color: var(--nexo-cream);
+      }
+
+      .trust-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 14px;
+      }
+
+      .trust-row span {
+        border: 1px solid rgba(245, 232, 196, 0.12);
+        border-radius: 999px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--nexo-muted);
+        font-size: 0.84rem;
+        font-weight: 800;
+      }
+
+      .card-stage {
+        min-height: 360px;
+        position: relative;
+        border: 1px solid var(--nexo-line);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(135deg, rgba(214, 176, 91, 0.14), transparent 32%),
+          rgba(17, 16, 13, 0.72);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .card-stage::before {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border: 1px solid rgba(214, 176, 91, 0.18);
+        border-radius: 22px;
+      }
+
+      .floating-card {
+        position: absolute;
+        width: clamp(116px, 28vw, 180px);
+        aspect-ratio: 0.68;
+        border-radius: 18px;
+        padding: 14px;
+        background: linear-gradient(160deg, #1c1710, #090807);
+        border: 2px solid rgba(214, 176, 91, 0.58);
+        box-shadow: 0 24px 40px rgba(0, 0, 0, 0.36);
+      }
+
+      .floating-card::before {
+        content: "";
+        display: block;
+        height: 68%;
+        border-radius: 12px;
+        background:
+          radial-gradient(circle at 50% 34%, rgba(245, 232, 196, 0.22), transparent 32%),
+          linear-gradient(135deg, var(--card-a), var(--card-b));
+      }
+
+      .floating-card strong {
+        display: block;
+        margin-top: 12px;
+        color: var(--nexo-cream);
+        font-size: 0.86rem;
+      }
+
+      .floating-card small {
+        display: block;
+        margin-top: 4px;
+        color: var(--nexo-gold);
+        font-weight: 900;
+      }
+
+      .card-one {
+        left: 8%;
+        top: 18%;
+        transform: rotate(-12deg);
+        --card-a: #d6b05b;
+        --card-b: #4f1d19;
+      }
+
+      .card-two {
+        right: 10%;
+        top: 8%;
+        transform: rotate(10deg);
+        --card-a: #7a3a33;
+        --card-b: #1b1712;
+      }
+
+      .card-three {
+        left: 36%;
+        bottom: 9%;
+        transform: rotate(3deg);
+        --card-a: #5e4a80;
+        --card-b: #d6b05b;
+      }
+
+      .stage-note {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        color: var(--nexo-muted);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .marquee {
+        overflow: hidden;
+        border-block: 1px solid var(--nexo-line);
+        background: linear-gradient(90deg, rgba(79, 29, 25, 0.3), rgba(214, 176, 91, 0.08), rgba(8, 8, 6, 0.68));
+      }
+
+      .marquee-track {
+        display: flex;
+        width: max-content;
+        min-width: 400%;
+        animation: marquee 36s linear infinite;
+        will-change: transform;
+      }
+
+      .marquee-group {
+        display: flex;
+        min-width: max-content;
+      }
+
+      .marquee span {
+        padding: 17px 34px;
+        color: var(--nexo-gold);
+        font-size: 1rem;
+        font-weight: 1000;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .marquee span::after {
+        content: " /";
+        color: rgba(245, 232, 196, 0.35);
+        margin-left: 22px;
+      }
+
+      @keyframes marquee {
+        to {
+          transform: translateX(-25%);
+        }
+      }
+
+      section {
+        padding: 72px 0;
+      }
+
+      .view-section,
+      .home-section {
+        display: none;
+      }
+
+      body.view-home .home-section,
+      body.view-shop #tienda,
+      body.view-calendar #eventos {
+        display: block;
+      }
+
+      body.view-home .hero.home-section {
+        display: grid;
+      }
+
+      .view-page {
+        min-height: calc(100svh - 74px);
+        padding-top: 54px;
+      }
+
+      .summary-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .summary-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border: 1px solid rgba(214, 176, 91, 0.18);
+        border-radius: var(--radius);
+        padding: 18px 18px 24px;
+        background: rgba(17, 16, 13, 0.58);
+        overflow: hidden;
+      }
+
+      .summary-panel-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .summary-panel h3 {
+        font-size: 1.4rem;
+      }
+
+      .summary-link {
+        border: 1px solid var(--nexo-line);
+        border-radius: 999px;
+        padding: 9px 12px;
+        color: var(--nexo-gold);
+        font-size: 0.78rem;
+        font-weight: 1000;
+        white-space: nowrap;
+      }
+
+      .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .preview-events {
+        display: grid;
+        gap: 12px;
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 24px;
+        color: var(--nexo-muted);
+        font-size: 0.88rem;
+        font-weight: 800;
+      }
+
+      .breadcrumb a {
+        color: var(--nexo-muted);
+      }
+
+      .breadcrumb span {
+        color: var(--nexo-gold);
+      }
+
+      .glow-cta {
+        position: relative;
+        min-height: 58px;
+        margin-top: auto;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: linear-gradient(135deg, #d6b05b, #f4d98b 52%, #c99333);
+        color: #12100b;
+        font-weight: 1000;
+        box-shadow: 0 0 0 1px rgba(214, 176, 91, 0.34), 0 20px 46px rgba(214, 176, 91, 0.18);
+      }
+
+      .glow-cta::before {
+        content: "";
+        position: absolute;
+        inset: -80% -20%;
+        background:
+          radial-gradient(circle at 22% 50%, rgba(255, 255, 255, 0.6), transparent 9%),
+          linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.5), transparent 62%);
+        transform: translateX(-80%);
+        animation: goldWave 3.2s ease-in-out infinite;
+      }
+
+      .glow-cta span {
+        position: relative;
+        z-index: 1;
+      }
+
+      @keyframes goldWave {
+        0%, 30% {
+          transform: translateX(-90%);
+        }
+        70%, 100% {
+          transform: translateX(90%);
+        }
+      }
+
+      .section-head {
+        display: grid;
+        gap: 14px;
+        margin-bottom: 28px;
+      }
+
+      .section-kicker {
+        color: var(--nexo-gold);
+        font-size: 0.78rem;
+        font-weight: 1000;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .section-head h2 {
+        max-width: 760px;
+        font-size: 2.2rem;
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .section-head p {
+        max-width: 660px;
+        color: var(--nexo-muted);
+        line-height: 1.7;
+      }
+
+      .category-mosaic {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(240px, 78vw);
+        gap: 14px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        scroll-snap-type: x mandatory;
+      }
+
+      .category-card {
+        min-height: 320px;
+        position: relative;
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid rgba(214, 176, 91, 0.2);
+        background: var(--nexo-panel);
+        scroll-snap-align: start;
+        isolation: isolate;
+        transition: transform 190ms ease, border-color 190ms ease;
+      }
+
+      .category-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(214, 176, 91, 0.58);
+      }
+
+      .category-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        transition: transform 400ms ease;
+      }
+
+      .category-card:hover img {
+        transform: scale(1.05);
+      }
+
+      .category-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(180deg, rgba(8, 8, 6, 0.1), rgba(8, 8, 6, 0.9));
+      }
+
+      .category-card div {
+        height: 100%;
+        min-height: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding: 22px;
+      }
+
+      .category-card h3 {
+        font-size: 1.8rem;
+        line-height: 1;
+      }
+
+      .category-card span {
+        margin-top: 11px;
+        color: var(--nexo-gold);
+        font-size: 0.86rem;
+        font-weight: 1000;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .shop-panel {
+        border: 1px solid rgba(214, 176, 91, 0.18);
+        border-radius: var(--radius);
+        padding: 14px;
+        background: rgba(17, 16, 13, 0.58);
+      }
+
+      .shop-toolbar {
+        display: grid;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .shop-categories {
+        display: flex;
+        gap: 9px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
+      .category-filter {
+        min-height: 40px;
+        border: 1px solid rgba(214, 176, 91, 0.2);
+        border-radius: 999px;
+        padding: 0 14px;
+        background: rgba(255, 255, 255, 0.035);
+        color: var(--nexo-muted);
+        font-weight: 1000;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      .category-filter.is-active {
+        background: linear-gradient(135deg, rgba(214, 176, 91, 0.95), #f0d07c);
+        color: #12100b;
+        border-color: transparent;
+      }
+
+      .shop-search {
+        min-height: 44px;
+        width: 100%;
+        border: 1px solid rgba(214, 176, 91, 0.2);
+        border-radius: 999px;
+        background: rgba(8, 8, 6, 0.55);
+        color: var(--nexo-cream);
+        padding: 0 16px;
+        outline: none;
+      }
+
+      .shop-search:focus {
+        border-color: rgba(214, 176, 91, 0.58);
+      }
+
+      .product-card {
+        border: 1px solid rgba(214, 176, 91, 0.18);
+        border-radius: var(--radius-small);
+        overflow: hidden;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+        transition: transform 190ms ease, border-color 190ms ease, box-shadow 190ms ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(214, 176, 91, 0.55);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .product-media {
+        aspect-ratio: 1;
+        background: var(--nexo-panel);
+      }
+
+      .product-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .product-body {
+        padding: 13px;
+      }
+
+      .franchise-badge {
+        width: fit-content;
+        display: inline-flex;
+        border-radius: 999px;
+        padding: 6px 9px;
+        background: var(--badge-bg);
+        color: var(--badge-fg);
+        font-size: 0.68rem;
+        font-weight: 1000;
+        text-transform: uppercase;
+      }
+
+      .product-card h3 {
+        margin-top: 11px;
+        min-height: 42px;
+        color: var(--nexo-cream);
+        font-size: 0.98rem;
+        line-height: 1.25;
+      }
+
+      .price-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .price {
+        color: var(--nexo-gold);
+        font-size: 1.05rem;
+        font-weight: 1000;
+      }
+
+      .buy-button {
+        border: 1px solid var(--nexo-line);
+        border-radius: 999px;
+        padding: 8px 10px;
+        background: rgba(214, 176, 91, 0.1);
+        color: var(--nexo-cream);
+        font-size: 0.78rem;
+        font-weight: 1000;
+        cursor: pointer;
+      }
+
+      .buy-button:hover {
+        background: rgba(214, 176, 91, 0.2);
+      }
+
+      .empty-state {
+        grid-column: 1 / -1;
+        display: none;
+        border: 1px dashed rgba(214, 176, 91, 0.26);
+        border-radius: var(--radius-small);
+        padding: 28px;
+        color: var(--nexo-muted);
+        text-align: center;
+      }
+
+      .center-action {
+        display: flex;
+        justify-content: center;
+        margin-top: 28px;
+      }
+
+      .events {
+        background:
+          linear-gradient(180deg, rgba(79, 29, 25, 0.14), rgba(8, 8, 6, 0)),
+          rgba(17, 16, 13, 0.48);
+        border-block: 1px solid rgba(214, 176, 91, 0.12);
+      }
+
+      .events-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .event-card {
+        display: grid;
+        grid-template-columns: 82px 1fr;
+        gap: 14px;
+        border: 1px solid rgba(214, 176, 91, 0.18);
+        border-radius: var(--radius-small);
+        padding: 14px;
+        background: rgba(8, 8, 6, 0.54);
+        transition: transform 180ms ease, border-color 180ms ease;
+      }
+
+      .event-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(214, 176, 91, 0.52);
+      }
+
+      .event-date {
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(160deg, var(--nexo-gold), #f2d68a);
+        color: #12100b;
+        text-align: center;
+        font-weight: 1000;
+      }
+
+      .event-date strong {
+        display: block;
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .event-date span {
+        display: block;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .event-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .event-meta span {
+        border-radius: 999px;
+        padding: 6px 9px;
+        background: rgba(255, 255, 255, 0.055);
+        color: var(--nexo-muted);
+        font-size: 0.72rem;
+        font-weight: 900;
+      }
+
+      .event-card h3 {
+        font-size: 1.08rem;
+        line-height: 1.2;
+      }
+
+      .event-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 14px;
+        color: var(--nexo-muted);
+        font-size: 0.86rem;
+        font-weight: 800;
+      }
+
+      .event-price {
+        color: var(--nexo-gold);
+      }
+
+      .event-signup {
+        width: fit-content;
+        min-height: 38px;
+        margin-top: 12px;
+        border: 1px solid rgba(214, 176, 91, 0.35);
+        border-radius: 999px;
+        padding: 0 14px;
+        background: rgba(214, 176, 91, 0.12);
+        color: var(--nexo-gold);
+        font-size: 0.78rem;
+        font-weight: 1000;
+        cursor: pointer;
+        transition: transform 180ms ease, background 180ms ease;
+      }
+
+      .event-signup:hover {
+        transform: translateY(-2px);
+        background: rgba(214, 176, 91, 0.2);
+      }
+
+      .event-signup.is-done {
+        background: rgba(214, 176, 91, 0.9);
+        color: #12100b;
+      }
+
+      .featured-event {
+        display: grid;
+        gap: 0;
+        margin-bottom: 28px;
+        border: 1px solid rgba(214, 176, 91, 0.24);
+        border-radius: var(--radius);
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, rgba(214, 176, 91, 0.08), transparent 42%),
+          rgba(17, 16, 13, 0.78);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+      }
+
+      .featured-event-copy {
+        padding: 24px;
+      }
+
+      .featured-badge {
+        width: fit-content;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        padding: 8px 12px;
+        background: rgba(138, 51, 43, 0.28);
+        color: #f1a094;
+        font-size: 0.72rem;
+        font-weight: 1000;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .featured-event h3 {
+        margin-top: 18px;
+        max-width: 650px;
+        font-size: 1.9rem;
+        line-height: 0.98;
+      }
+
+      .featured-event p {
+        max-width: 560px;
+        margin-top: 16px;
+        color: var(--nexo-muted);
+        line-height: 1.65;
+      }
+
+      .featured-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        max-width: 560px;
+        margin-top: 22px;
+      }
+
+      .featured-stats span {
+        display: block;
+        color: rgba(245, 232, 196, 0.55);
+        font-size: 0.72rem;
+        font-weight: 1000;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .featured-stats strong {
+        display: block;
+        margin-top: 6px;
+        color: var(--nexo-cream);
+      }
+
+      .featured-event .event-signup {
+        margin-top: 24px;
+        min-height: 48px;
+        padding: 0 24px;
+        background: linear-gradient(135deg, var(--nexo-gold), #e7ba4c);
+        color: #12100b;
+      }
+
+      .featured-event-art {
+        min-height: 260px;
+        position: relative;
+        display: grid;
+        place-items: center;
+        background:
+          repeating-linear-gradient(45deg, rgba(214, 176, 91, 0.06) 0 16px, transparent 16px 34px),
+          linear-gradient(135deg, rgba(96, 67, 130, 0.22), rgba(79, 29, 25, 0.16));
+        border-top: 1px solid rgba(214, 176, 91, 0.14);
+      }
+
+      .featured-card-prop {
+        width: 142px;
+        aspect-ratio: 0.68;
+        border: 3px solid #6b55a1;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(160deg, #f2ddab, #d9bc72);
+        color: #6b55a1;
+        font-size: 0.76rem;
+        font-weight: 1000;
+        transform: rotate(-5deg);
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+      }
+
+      .calendar-wrap {
+        margin-top: 34px;
+        border: 1px solid rgba(214, 176, 91, 0.18);
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: rgba(8, 8, 6, 0.64);
+      }
+
+      .calendar-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px;
+        border-bottom: 1px solid rgba(214, 176, 91, 0.14);
+      }
+
+      .calendar-head h3 {
+        font-size: 1.35rem;
+      }
+
+      .calendar-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .calendar-nav {
+        min-width: 42px;
+        height: 38px;
+        border: 1px solid rgba(214, 176, 91, 0.2);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--nexo-gold);
+        font-weight: 1000;
+        cursor: pointer;
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+      }
+
+      .calendar-weekday,
+      .calendar-day {
+        min-width: 0;
+        border-right: 1px solid rgba(245, 232, 196, 0.08);
+        border-bottom: 1px solid rgba(245, 232, 196, 0.08);
+      }
+
+      .calendar-weekday {
+        padding: 10px 6px;
+        color: var(--nexo-gold);
+        font-size: 0.68rem;
+        font-weight: 1000;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .calendar-day {
+        min-height: 98px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.018);
+      }
+
+      .calendar-day.is-muted {
+        opacity: 0.34;
+      }
+
+      .day-number {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--nexo-cream);
+        font-size: 0.82rem;
+        font-weight: 1000;
+      }
+
+      .calendar-event {
+        display: block;
+        margin-top: 5px;
+        border-left: 3px solid var(--nexo-gold);
+        border-radius: 6px;
+        padding: 5px 6px;
+        background: rgba(214, 176, 91, 0.11);
+        color: var(--nexo-cream);
+        font-size: 0.68rem;
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .calendar-event small {
+        display: block;
+        color: var(--nexo-muted);
+        font-size: 0.64rem;
+      }
+
+      .cart-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        background: rgba(0, 0, 0, 0.54);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 180ms ease;
+      }
+
+      .cart-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 31;
+        width: min(100%, 420px);
+        height: 100svh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        border-left: 1px solid var(--nexo-line);
+        background: #0b0a08;
+        box-shadow: -24px 0 60px rgba(0, 0, 0, 0.45);
+        transform: translateX(100%);
+        transition: transform 220ms ease;
+      }
+
+      body.cart-open {
+        overflow: hidden;
+      }
+
+      body.cart-open .cart-backdrop {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      body.cart-open .cart-drawer {
+        transform: translateX(0);
+      }
+
+      .cart-header,
+      .cart-footer {
+        padding: 18px;
+        border-bottom: 1px solid rgba(214, 176, 91, 0.14);
+      }
+
+      .cart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .cart-header h2 {
+        font-size: 1.35rem;
+      }
+
+      .cart-close {
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--nexo-line);
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--nexo-cream);
+        cursor: pointer;
+      }
+
+      .cart-items {
+        display: grid;
+        align-content: start;
+        gap: 12px;
+        overflow: auto;
+        padding: 18px;
+      }
+
+      .cart-item {
+        display: grid;
+        grid-template-columns: 58px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid rgba(214, 176, 91, 0.16);
+        border-radius: 14px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .cart-item img {
+        width: 58px;
+        height: 58px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .cart-item strong {
+        display: block;
+        color: var(--nexo-cream);
+        font-size: 0.9rem;
+        line-height: 1.2;
+      }
+
+      .cart-item span {
+        color: var(--nexo-gold);
+        font-size: 0.84rem;
+        font-weight: 900;
+      }
+
+      .qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .qty-controls button {
+        width: 28px;
+        height: 28px;
+        border: 1px solid rgba(214, 176, 91, 0.22);
+        border-radius: 50%;
+        background: rgba(214, 176, 91, 0.08);
+        color: var(--nexo-cream);
+        cursor: pointer;
+      }
+
+      .cart-empty {
+        color: var(--nexo-muted);
+        line-height: 1.6;
+      }
+
+      .cart-footer {
+        border-top: 1px solid rgba(214, 176, 91, 0.14);
+        border-bottom: 0;
+      }
+
+      .cart-total {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+        color: var(--nexo-muted);
+        font-weight: 900;
+      }
+
+      .cart-total strong {
+        color: var(--nexo-gold);
+        font-size: 1.3rem;
+      }
+
+      .shop-info {
+        display: grid;
+        gap: 18px;
+      }
+
+      .hours-card,
+      .map-card {
+        border: 1px solid rgba(214, 176, 91, 0.18);
+        border-radius: var(--radius);
+        background: rgba(17, 16, 13, 0.72);
+        overflow: hidden;
+      }
+
+      .hours-card {
+        padding: 24px;
+      }
+
+      .info-title {
+        margin-top: 12px;
+        font-size: 2.2rem;
+        line-height: 0.96;
+      }
+
+      .hours-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .hours-list div {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        border-bottom: 1px solid rgba(245, 232, 196, 0.08);
+        padding-bottom: 12px;
+        color: var(--nexo-muted);
+      }
+
+      .hours-list strong {
+        color: var(--nexo-cream);
+      }
+
+      .map-card {
+        min-height: 310px;
+        position: relative;
+        display: grid;
+        align-content: end;
+        padding: 24px;
+        background:
+          linear-gradient(135deg, rgba(214, 176, 91, 0.18), transparent 38%),
+          linear-gradient(45deg, rgba(245, 232, 196, 0.08) 25%, transparent 25%, transparent 75%, rgba(245, 232, 196, 0.08) 75%),
+          var(--nexo-panel);
+        background-size: auto, 46px 46px, auto;
+      }
+
+      .pin {
+        position: absolute;
+        top: 34%;
+        left: 52%;
+        width: 54px;
+        height: 54px;
+        border-radius: 50% 50% 50% 0;
+        background: var(--nexo-gold);
+        transform: rotate(-45deg);
+        box-shadow: 0 0 0 12px rgba(214, 176, 91, 0.12);
+      }
+
+      .pin::after {
+        content: "";
+        position: absolute;
+        inset: 17px;
+        border-radius: 50%;
+        background: var(--nexo-wine);
+      }
+
+      .map-card p {
+        position: relative;
+        max-width: 390px;
+        color: var(--nexo-muted);
+        line-height: 1.6;
+      }
+
+      .footer {
+        border-top: 1px solid var(--nexo-line);
+        background: #060604;
+        padding: 40px 0 22px;
+      }
+
+      .footer-grid {
+        display: grid;
+        gap: 28px;
+      }
+
+      .footer-logo {
+        width: 132px;
+      }
+
+      .footer p,
+      .footer a,
+      .legal-row {
+        color: var(--nexo-muted);
+      }
+
+      .footer h3 {
+        margin-bottom: 12px;
+        color: var(--nexo-gold);
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .footer-list {
+        display: grid;
+        gap: 10px;
+        font-size: 0.92rem;
+      }
+
+      .socials {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .legal-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 34px;
+        border-top: 1px solid rgba(214, 176, 91, 0.13);
+        padding-top: 20px;
+        font-size: 0.86rem;
+      }
+
+      @media (min-width: 640px) {
+        .hero h1 {
+          font-size: 4.1rem;
+        }
+
+        .hero-text {
+          font-size: 1.08rem;
+        }
+
+        .marquee span {
+          font-size: 1.18rem;
+        }
+
+        .section-head h2 {
+          font-size: 3rem;
+        }
+
+        .info-title {
+          font-size: 3.1rem;
+        }
+
+        .cta-row {
+          grid-template-columns: repeat(2, max-content);
+        }
+
+        .brand-copy {
+          display: block;
+          color: var(--nexo-muted);
+          font-size: 0.74rem;
+          font-weight: 900;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+
+        .products-grid {
+          gap: 16px;
+        }
+
+        .summary-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .featured-event h3 {
+          font-size: 2.45rem;
+        }
+
+        .shop-panel {
+          padding: 18px;
+        }
+
+        .calendar-day {
+          min-height: 118px;
+        }
+      }
+
+      @media (min-width: 820px) {
+        .menu-toggle,
+        .mobile-panel {
+          display: none;
+        }
+
+        .nav-links,
+        .nav-actions {
+          display: flex;
+          align-items: center;
+        }
+
+        .nav-links {
+          gap: 6px;
+          border: 1px solid rgba(214, 176, 91, 0.14);
+          border-radius: 999px;
+          padding: 6px;
+          background: rgba(255, 255, 255, 0.035);
+        }
+
+        .nav-links a {
+          border-radius: 999px;
+          padding: 10px 14px;
+          color: var(--nexo-muted);
+          font-size: 0.9rem;
+          font-weight: 900;
+          transition: background 180ms ease, color 180ms ease;
+        }
+
+      .nav-links a:hover {
+          background: rgba(214, 176, 91, 0.1);
+          color: var(--nexo-cream);
+        }
+
+        .nav-links a.is-active {
+          background: rgba(214, 176, 91, 0.16);
+          color: var(--nexo-gold);
+        }
+
+        .nav-actions {
+          gap: 10px;
+        }
+
+        .hero {
+          align-items: center;
+          padding: 48px 0;
+        }
+
+        .hero-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .card-stage {
+          min-height: 420px;
+        }
+
+        .category-mosaic {
+          grid-auto-flow: initial;
+          grid-auto-columns: initial;
+          grid-template-columns: 1.25fr 0.85fr 0.9fr;
+          grid-template-rows: repeat(2, 270px);
+          overflow: visible;
+        }
+
+        .category-card {
+          min-height: auto;
+        }
+
+        .category-card:first-child {
+          grid-row: span 2;
+        }
+
+        .category-card:nth-child(4) {
+          grid-column: span 2;
+        }
+
+        .products-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .shop-toolbar {
+          grid-template-columns: minmax(0, 1fr) 280px;
+          align-items: center;
+        }
+
+        .events-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .preview-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .shop-info {
+          grid-template-columns: 0.8fr 1.2fr;
+          align-items: stretch;
+        }
+
+        .footer-grid {
+          grid-template-columns: 1.4fr 0.7fr 0.7fr 1fr;
+        }
+
+        .summary-grid {
+          width: calc(100% - 34px);
+          margin-inline: auto;
+        }
+
+        .featured-event {
+          grid-template-columns: 1.05fr 0.95fr;
+        }
+
+        .featured-event-art {
+          min-height: 100%;
+          border-top: 0;
+          border-left: 1px solid rgba(214, 176, 91, 0.14);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .calendar-wrap {
+          margin-inline: -16px;
+          border-radius: 0;
+          border-inline: 0;
+        }
+
+        .calendar-head {
+          padding-inline: 16px;
+        }
+
+        .calendar-weekday {
+          font-size: 0.58rem;
+          padding: 9px 3px;
+        }
+
+        .calendar-day {
+          min-height: 86px;
+          padding: 6px 4px;
+        }
+
+        .calendar-event {
+          padding: 4px;
+          font-size: 0.58rem;
+        }
+
+        .calendar-event small {
+          display: none;
+        }
+
+        .featured-stats {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (min-width: 1060px) {
+        .hero-grid {
+          grid-template-columns: 0.9fr 0.72fr;
+          align-items: end;
+        }
+
+        .hero h1 {
+          font-size: 5.2rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="view-home">
+    <header class="site-header">
+      <div class="shell nav">
+        <a class="brand" href="#inicio" data-view-link="home" aria-label="El Nexo SF inicio">
+          <img class="brand-mark" src="assets/el-nexo-sf-logo.jpg" alt="El Nexo SF">
+          <span class="brand-copy">Sant Feliu Hobby Store</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Navegacion principal">
+          <a href="#inicio" data-view-link="home">Inicio</a>
+          <a href="#tienda" data-view-link="shop">Tienda</a>
+          <a href="#eventos" data-view-link="calendar">Eventos</a>
+          <a href="#contacto" data-view-link="home">Contacto</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="icon-button cart-trigger" type="button" aria-label="Abrir carrito">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6h15l-2 8H8L6 3H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="18" cy="20" r="1.5" fill="currentColor"/></svg>
+            <span class="cart-count">2</span>
+          </button>
+          <a class="icon-button" href="https://wa.me/34936279441" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 14.9L2.1 22l5.2-1.2A10 10 0 1 0 12 2Zm0 18.1c-1.4 0-2.8-.4-4-1.1l-.3-.2-3 .7.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.5-6.1c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.3-.7.8-.8.9-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.1-.2 0-.3.1-.5l.4-.4c.1-.2.2-.3.2-.4s0-.3-.1-.4c0-.1-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1 0 1.3.9 2.5 1 2.7.1.2 1.8 2.9 4.4 4 .6.3 1.1.4 1.5.5.6.2 1.1.1 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.2-.2-.2-.4-.3Z"/></svg>
+          </a>
+        </div>
+
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+          <span></span>
+        </button>
+      </div>
+      <div class="shell mobile-panel" id="mobilePanel">
+        <a href="#inicio" data-view-link="home">Inicio</a>
+        <a href="#tienda" data-view-link="shop">Tienda</a>
+        <a href="#eventos" data-view-link="calendar">Eventos</a>
+        <a href="#contacto" data-view-link="home">Contacto</a>
+        <div class="mobile-actions">
+          <button class="icon-button cart-trigger" type="button" aria-label="Abrir carrito"><span class="cart-count">2</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6h15l-2 8H8L6 3H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="18" cy="20" r="1.5" fill="currentColor"/></svg></button>
+          <a class="icon-button" href="https://wa.me/34936279441" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 14.9L2.1 22l5.2-1.2A10 10 0 1 0 12 2Zm0 18.1c-1.4 0-2.8-.4-4-1.1l-.3-.2-3 .7.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.5-6.1c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.3-.7.8-.8.9-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.1-.2 0-.3.1-.5l.4-.4c.1-.2.2-.3.2-.4s0-.3-.1-.4c0-.1-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1 0 1.3.9 2.5 1 2.7.1.2 1.8 2.9 4.4 4 .6.3 1.1.4 1.5.5.6.2 1.1.1 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.2-.2-.2-.4-.3Z"/></svg></a>
+        </div>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="hero home-section">
+        <div class="hero-backdrop" aria-hidden="true">
+          <img src="assets/hero-el-nexo-sf.webp" alt="">
+        </div>
+        <div class="shell hero-grid">
+          <div>
+            <span class="eyebrow">Tienda TCG · Sant Feliu</span>
+            <h1>Abre el sobre. <span>Conecta con tu comunidad.</span></h1>
+            <p class="hero-text">Cartas, juegos de mesa y accesorios para coleccionistas que vienen a por algo mas que una compra: Pokemon, One Piece, Naruto, Lorcana, Topps, Dragon Shield y Ultra Pro, con eventos semanales en tienda.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#tienda" data-view-link="shop">Ver tienda</a>
+              <a class="btn btn-secondary" href="#eventos" data-view-link="calendar">Proximos eventos</a>
+            </div>
+            <div class="trust-row" aria-label="Servicios destacados">
+              <span>Reserva online</span>
+              <span>Recogida en tienda</span>
+              <span>Eventos semanales</span>
+            </div>
+          </div>
+
+          <div class="card-stage" aria-label="Cartas destacadas">
+            <article class="floating-card card-one">
+              <strong>Pokemon</strong>
+              <small>ETB y sobres</small>
+            </article>
+            <article class="floating-card card-two">
+              <strong>One Piece</strong>
+              <small>Displays</small>
+            </article>
+            <article class="floating-card card-three">
+              <strong>Lorcana</strong>
+              <small>Starter decks</small>
+            </article>
+            <div class="stage-note">
+              <span>Sellado</span>
+              <span>Accesorios</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="marquee home-section" aria-label="Franquicias">
+        <div class="marquee-track">
+          <div class="marquee-group"><span>Pokemon</span><span>One Piece</span><span>Naruto</span><span>Lorcana</span><span>Topps</span><span>Dragon Shield</span><span>Ultra Pro</span></div>
+          <div class="marquee-group" aria-hidden="true"><span>Pokemon</span><span>One Piece</span><span>Naruto</span><span>Lorcana</span><span>Topps</span><span>Dragon Shield</span><span>Ultra Pro</span></div>
+          <div class="marquee-group" aria-hidden="true"><span>Pokemon</span><span>One Piece</span><span>Naruto</span><span>Lorcana</span><span>Topps</span><span>Dragon Shield</span><span>Ultra Pro</span></div>
+          <div class="marquee-group" aria-hidden="true"><span>Pokemon</span><span>One Piece</span><span>Naruto</span><span>Lorcana</span><span>Topps</span><span>Dragon Shield</span><span>Ultra Pro</span></div>
+        </div>
+      </div>
+
+      <section id="categorias" class="home-section">
+        <div class="shell">
+          <div class="section-head">
+            <span class="section-kicker">Franquicias</span>
+            <h2>Rutas rapidas para cada tipo de coleccionista.</h2>
+            <p>Un escaparate pensado para saltar directo a tu universo favorito, con una composicion tipo mesa de juego en vez de un grid clasico.</p>
+          </div>
+          <div class="category-mosaic">
+            <a class="category-card category-link" href="#tienda" data-category="pokemon"><img src="assets/cat-pokemon.png" alt=""><div><h3>Pokemon</h3><span>Entrar</span></div></a>
+            <a class="category-card category-link" href="#tienda" data-category="one-piece"><img src="assets/cat-one-piece.png" alt=""><div><h3>One Piece</h3><span>Entrar</span></div></a>
+            <a class="category-card category-link" href="#tienda" data-category="naruto"><img src="assets/cat-naruto.png" alt=""><div><h3>Naruto</h3><span>Entrar</span></div></a>
+            <a class="category-card category-link" href="#tienda" data-category="lorcana"><img src="assets/cat-lorcana.png" alt=""><div><h3>Lorcana</h3><span>Entrar</span></div></a>
+            <a class="category-card category-link" href="#tienda" data-category="topps"><img src="assets/cat-topps.png" alt=""><div><h3>Topps</h3><span>Entrar</span></div></a>
+            <a class="category-card category-link" href="#tienda" data-category="accesorios"><img src="assets/cat-accessories.png" alt=""><div><h3>Accesorios</h3><span>Entrar</span></div></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section" id="resumen">
+        <div class="shell">
+          <div class="section-head">
+            <span class="section-kicker">Resumen</span>
+            <h2>Lo esencial antes de entrar al detalle.</h2>
+            <p>Una portada ligera para enseñar lo que vende la tienda y que el cliente pueda saltar a la experiencia completa cuando quiera.</p>
+          </div>
+          <div class="summary-grid">
+            <article class="summary-panel">
+              <div class="summary-panel-head">
+                <div>
+                  <span class="section-kicker">Tienda</span>
+                  <h3>Novedades destacadas</h3>
+                </div>
+              </div>
+              <div class="preview-grid" id="homeProductPreview"></div>
+              <a class="glow-cta" href="#tienda" data-view-link="shop"><span>Ver toda la tienda</span></a>
+            </article>
+            <article class="summary-panel">
+              <div class="summary-panel-head">
+                <div>
+                  <span class="section-kicker">Eventos</span>
+                  <h3>Próximas partidas</h3>
+                </div>
+              </div>
+              <div class="preview-events" id="homeEventPreview"></div>
+              <a class="glow-cta" href="#eventos" data-view-link="calendar"><span>Ver calendario completo</span></a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="tienda" class="view-section view-page">
+        <div class="shell">
+          <div class="breadcrumb"><a href="#inicio" data-view-link="home">Inicio</a><span>/</span><span>Tienda</span></div>
+          <div class="section-head">
+            <span class="section-kicker">Ultimas novedades</span>
+            <h2>Producto sellado, accesorios y caprichos de vitrina.</h2>
+            <p>Precios placeholder realistas para demo, preparados para conectarse despues a catalogo, stock y carrito real.</p>
+          </div>
+
+          <div class="shop-panel">
+            <div class="shop-toolbar" aria-label="Filtros de tienda">
+              <div class="shop-categories">
+                <button class="category-filter is-active" type="button" data-category="all">Todo</button>
+                <button class="category-filter" type="button" data-category="pokemon">Pokemon</button>
+                <button class="category-filter" type="button" data-category="one-piece">One Piece</button>
+                <button class="category-filter" type="button" data-category="naruto">Naruto</button>
+                <button class="category-filter" type="button" data-category="lorcana">Lorcana</button>
+                <button class="category-filter" type="button" data-category="topps">Topps</button>
+                <button class="category-filter" type="button" data-category="accesorios">Accesorios</button>
+              </div>
+              <input class="shop-search" type="search" placeholder="Buscar producto" aria-label="Buscar en tienda">
+            </div>
+            <div class="products-grid" id="productGrid"></div>
+            <div class="empty-state" id="productEmpty">No hay productos para ese filtro en la demo.</div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="events view-section view-page" id="eventos">
+        <div class="shell">
+          <div class="breadcrumb"><a href="#inicio" data-view-link="home">Inicio</a><span>/</span><span>Eventos</span></div>
+          <div class="section-head">
+            <span class="section-kicker">Proximos eventos</span>
+            <h2>Mesas listas, plazas contadas y sobres preparados.</h2>
+            <p>Una agenda clara para torneos, ligas y quedadas de comunidad, con plazas disponibles y precio visible desde la home.</p>
+          </div>
+
+          <article class="featured-event">
+            <div class="featured-event-copy">
+              <span class="featured-badge">★ Evento destacado</span>
+              <h3>Prerelease Lorcana - Las Tierras Inundadas</h3>
+              <p>Se de los primeros en jugar el nuevo set. Incluye sobres de prerelease, material sellado y cartas promo exclusivas. Plazas limitadas.</p>
+              <div class="featured-stats">
+                <div><span>Fecha</span><strong>Sab 12 Jul · 17:00</strong></div>
+                <div><span>Plazas</span><strong>Lista abierta</strong></div>
+                <div><span>Precio</span><strong>25 €</strong></div>
+              </div>
+              <button class="event-signup" type="button">Apuntarme</button>
+            </div>
+            <div class="featured-event-art" aria-hidden="true">
+              <div class="featured-card-prop">// Lorcana</div>
+            </div>
+          </article>
+
+          <div class="events-grid">
+            <article class="event-card">
+              <div class="event-date"><div><strong>04</strong><span>Jul</span></div></div>
+              <div>
+                <div class="event-meta"><span>Pokemon</span><span>12 plazas</span></div>
+                <h3>Liga Pokemon El Nexo</h3>
+                <button class="event-signup" type="button">Apuntarme</button>
+                <div class="event-bottom"><span>Viernes · 18:00</span><span class="event-price">Gratis</span></div>
+              </div>
+            </article>
+            <article class="event-card">
+              <div class="event-date"><div><strong>06</strong><span>Jul</span></div></div>
+              <div>
+                <div class="event-meta"><span>One Piece</span><span>8 plazas</span></div>
+                <h3>Torneo sealed de domingo</h3>
+                <button class="event-signup" type="button">Apuntarme</button>
+                <div class="event-bottom"><span>Domingo · 11:00</span><span class="event-price">5 €</span></div>
+              </div>
+            </article>
+            <article class="event-card">
+              <div class="event-date"><div><strong>10</strong><span>Jul</span></div></div>
+              <div>
+                <div class="event-meta"><span>Lorcana</span><span>10 plazas</span></div>
+                <h3>Noche de liga Lorcana</h3>
+                <button class="event-signup" type="button">Apuntarme</button>
+                <div class="event-bottom"><span>Jueves · 17:30</span><span class="event-price">Gratis</span></div>
+              </div>
+            </article>
+            <article class="event-card">
+              <div class="event-date"><div><strong>12</strong><span>Jul</span></div></div>
+              <div>
+                <div class="event-meta"><span>Naruto</span><span>6 plazas</span></div>
+                <h3>Demo y partidas de iniciacion</h3>
+                <button class="event-signup" type="button">Apuntarme</button>
+                <div class="event-bottom"><span>Sabado · 19:00</span><span class="event-price">5 €</span></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="calendar-wrap" id="calendar">
+            <div class="calendar-head">
+              <div>
+                <span class="section-kicker">Calendario completo</span>
+                <h3 id="calendarTitle">Julio 2026</h3>
+              </div>
+              <div class="calendar-actions">
+                <button class="calendar-nav" type="button" id="prevMonth" aria-label="Mes anterior">‹</button>
+                <button class="calendar-nav" type="button" id="todayMonth">Hoy</button>
+                <button class="calendar-nav" type="button" id="nextMonth" aria-label="Mes siguiente">›</button>
+              </div>
+            </div>
+            <div class="calendar-grid" id="calendarWeekdays" aria-hidden="true"></div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <section id="contacto" class="home-section">
+        <div class="shell shop-info">
+          <div class="hours-card">
+            <span class="section-kicker">Info de tienda</span>
+            <h2 class="info-title">Nos vemos en Sant Feliu.</h2>
+            <div class="hours-list">
+              <div><strong>Lunes a viernes</strong><span>10:00 - 20:00</span></div>
+              <div><strong>Sabado</strong><span>10:00 - 21:00</span></div>
+              <div><strong>Domingo</strong><span>10:00 - 15:00</span></div>
+            </div>
+          </div>
+          <a class="map-card" href="https://www.google.com/maps/search/?api=1&query=Carrer%20de%20Josep%20Ricart%2041%2008980%20Sant%20Feliu%20de%20Llobregat%20Barcelona" target="_blank" rel="noopener" aria-label="Abrir direccion en Google Maps">
+            <span class="pin" aria-hidden="true"></span>
+            <p><strong style="color: var(--nexo-cream);">Carrer de Josep Ricart, 41</strong><br>08980 Sant Feliu de Llobregat, Barcelona<br>Ver ruta en Google Maps</p>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell">
+        <div class="footer-grid">
+          <div>
+            <img class="footer-logo" src="assets/el-nexo-sf-logo.jpg" alt="El Nexo SF">
+            <p style="margin-top: 18px; max-width: 340px; line-height: 1.65;">Tienda TCG, juegos de mesa, rol y wargames en Sant Feliu de Llobregat. Sellado, accesorios, comunidad y eventos semanales.</p>
+            <div class="socials">
+              <a class="icon-button" href="https://www.instagram.com/elnexosf/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a>
+              <a class="icon-button" href="https://wa.me/34936279441" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 14.9L2.1 22l5.2-1.2A10 10 0 1 0 12 2Zm0 18.1c-1.4 0-2.8-.4-4-1.1l-.3-.2-3 .7.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.5-6.1c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.3-.7.8-.8.9-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.1-.2 0-.3.1-.5l.4-.4c.1-.2.2-.3.2-.4s0-.3-.1-.4c0-.1-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1 0 1.3.9 2.5 1 2.7.1.2 1.8 2.9 4.4 4 .6.3 1.1.4 1.5.5.6.2 1.1.1 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.2-.2-.2-.4-.3Z"/></svg></a>
+            </div>
+          </div>
+          <div>
+            <h3>Secciones</h3>
+            <div class="footer-list">
+              <a href="#inicio" data-view-link="home">Inicio</a>
+              <a href="#tienda" data-view-link="shop">Tienda</a>
+              <a href="#eventos" data-view-link="calendar">Eventos</a>
+              <a href="#contacto" data-view-link="home">Contacto</a>
+            </div>
+          </div>
+          <div>
+            <h3>Legal</h3>
+            <div class="footer-list">
+              <a href="#">Aviso legal</a>
+              <a href="#">Privacidad</a>
+              <a href="#">Cookies</a>
+              <a href="#">Devoluciones</a>
+            </div>
+          </div>
+          <div>
+            <h3>Direccion y horario</h3>
+            <div class="footer-list">
+              <span>Carrer de Josep Ricart, 41</span>
+              <span>08980 Sant Feliu de Llobregat, Barcelona</span>
+              <span>Lun-Vie 10-20h · Sab 10-21h · Dom 10-15h</span>
+            </div>
+          </div>
+        </div>
+        <div class="legal-row">
+          <span>Copyright 2026 El Nexo SF. Todos los derechos reservados.</span>
+          <span>Demo visual preparada para presentacion comercial.</span>
+        </div>
+      </div>
+    </footer>
+
+    <div class="cart-backdrop" data-cart-close></div>
+    <aside class="cart-drawer" aria-label="Carrito" aria-hidden="true">
+      <div class="cart-header">
+        <div>
+          <span class="section-kicker">Tu reserva</span>
+          <h2>Carrito de demo</h2>
+        </div>
+        <button class="cart-close" type="button" data-cart-close aria-label="Cerrar carrito">×</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Total estimado</span>
+          <strong id="cartTotal">0,00 €</strong>
+        </div>
+        <a class="btn btn-primary" href="https://wa.me/34936279441" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+      </div>
+    </aside>
+
+    <script>
+      const toggle = document.querySelector(".menu-toggle");
+      const panel = document.querySelector("#mobilePanel");
+      const productGrid = document.querySelector("#productGrid");
+      const productEmpty = document.querySelector("#productEmpty");
+      const homeProductPreview = document.querySelector("#homeProductPreview");
+      const homeEventPreview = document.querySelector("#homeEventPreview");
+      const shopSearch = document.querySelector(".shop-search");
+      const categoryButtons = [...document.querySelectorAll(".category-filter")];
+      const cartDrawer = document.querySelector(".cart-drawer");
+      const cartItems = document.querySelector("#cartItems");
+      const cartTotal = document.querySelector("#cartTotal");
+      const cartCounts = [...document.querySelectorAll(".cart-count")];
+      const calendarGrid = document.querySelector("#calendarGrid");
+      const calendarWeekdays = document.querySelector("#calendarWeekdays");
+      const calendarTitle = document.querySelector("#calendarTitle");
+      const viewLinks = [...document.querySelectorAll("[data-view-link]")];
+
+      const products = [
+        { id: "pkm-etb", category: "pokemon", franchise: "Pokemon", name: "Pokemon Elite Trainer Box", price: 59.95, image: "assets/prod-etb.png", badgeBg: "rgba(214, 176, 91, 0.16)", badgeFg: "#f2d68a" },
+        { id: "pkm-bundle", category: "pokemon", franchise: "Pokemon", name: "Pokemon Booster Bundle", price: 29.95, image: "assets/prod-etb.png", badgeBg: "rgba(214, 176, 91, 0.16)", badgeFg: "#f2d68a" },
+        { id: "op-display", category: "one-piece", franchise: "One Piece", name: "One Piece Booster Display", price: 119.90, image: "assets/prod-onepiece.png", badgeBg: "rgba(138, 51, 43, 0.25)", badgeFg: "#f0b0a7" },
+        { id: "naruto-starter", category: "naruto", franchise: "Naruto", name: "Naruto Mythos Starter Deck", price: 18.95, image: "assets/prod-onepiece.png", badgeBg: "rgba(173, 90, 45, 0.25)", badgeFg: "#ffc09c" },
+        { id: "lorcana-starter", category: "lorcana", franchise: "Lorcana", name: "Lorcana Starter Deck", price: 19.95, image: "assets/prod-lorcana.png", badgeBg: "rgba(96, 67, 130, 0.3)", badgeFg: "#dac4ff" },
+        { id: "topps-box", category: "topps", franchise: "Topps", name: "Topps Chrome Hobby Box", price: 89.95, image: "assets/prod-lorcana.png", badgeBg: "rgba(68, 92, 126, 0.3)", badgeFg: "#c7dcff" },
+        { id: "ds-sleeves", category: "accesorios", franchise: "Dragon Shield", name: "Dragon Shield Matte Sleeves", price: 11.95, image: "assets/prod-sleeves.png", badgeBg: "rgba(115, 116, 108, 0.28)", badgeFg: "#e5e1d2" },
+        { id: "up-binder", category: "accesorios", franchise: "Ultra Pro", name: "Ultra Pro 9-Pocket Binder", price: 24.95, image: "assets/prod-sleeves.png", badgeBg: "rgba(115, 116, 108, 0.28)", badgeFg: "#e5e1d2" }
+      ];
+
+      const events = [
+        { date: "2026-07-04", time: "18:00", franchise: "Pokemon", name: "Liga Pokemon El Nexo", seats: "12 plazas", price: "Gratis" },
+        { date: "2026-07-06", time: "11:00", franchise: "One Piece", name: "Torneo sealed de domingo", seats: "8 plazas", price: "5 €" },
+        { date: "2026-07-10", time: "17:30", franchise: "Lorcana", name: "Noche de liga Lorcana", seats: "10 plazas", price: "Gratis" },
+        { date: "2026-07-12", time: "19:00", franchise: "Naruto", name: "Demo y partidas de iniciacion", seats: "6 plazas", price: "5 €" },
+        { date: "2026-07-18", time: "11:30", franchise: "Topps", name: "Trade day deportivo", seats: "Libre", price: "Gratis" },
+        { date: "2026-07-24", time: "18:00", franchise: "Pokemon", name: "Draft y cambio de cartas", seats: "14 plazas", price: "5 €" },
+        { date: "2026-08-02", time: "11:00", franchise: "One Piece", name: "Store meetup", seats: "10 plazas", price: "Gratis" }
+      ];
+
+      let activeCategory = "all";
+      let cart = [
+        { id: "pkm-etb", qty: 1 },
+        { id: "ds-sleeves", qty: 1 }
+      ];
+      let shownMonth = new Date(2026, 6, 1);
+
+      const formatPrice = (value) => `${value.toFixed(2).replace(".", ",")} €`;
+
+      function viewFromHash(hash) {
+        if (hash === "#tienda") return "shop";
+        if (hash === "#eventos" || hash === "#calendar") return "calendar";
+        return "home";
+      }
+
+      function setActiveView(view, targetHash = "#inicio", push = true) {
+        document.body.classList.remove("view-home", "view-shop", "view-calendar");
+        document.body.classList.add(`view-${view}`);
+        viewLinks.forEach((link) => {
+          link.classList.toggle("is-active", link.dataset.viewLink === view);
+        });
+        closeMobileMenu();
+        closeCart();
+        if (push) {
+          history.pushState(null, "", targetHash);
+        }
+        requestAnimationFrame(() => {
+          const target = document.querySelector(targetHash);
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
+      }
+
+      const closeMobileMenu = () => {
+        panel.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      };
+
+      toggle.addEventListener("click", () => {
+        const isOpen = panel.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      panel.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMobileMenu);
+      });
+
+      viewLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          const hash = link.getAttribute("href") || "#inicio";
+          if (link.dataset.viewLink === "shop") {
+            shopSearch.value = "";
+            setCategory("all");
+          }
+          setActiveView(link.dataset.viewLink, hash);
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        const signup = event.target.closest(".event-signup");
+        if (!signup) return;
+        signup.classList.add("is-done");
+        signup.textContent = "Apuntado";
+      });
+
+      function setCategory(category) {
+        activeCategory = category;
+        categoryButtons.forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.category === category);
+        });
+        renderProducts();
+      }
+
+      function renderProducts() {
+        const query = shopSearch.value.trim().toLowerCase();
+        const filtered = products.filter((product) => {
+          const matchesCategory = activeCategory === "all" || product.category === activeCategory;
+          const haystack = `${product.name} ${product.franchise} ${product.category}`.toLowerCase();
+          return matchesCategory && haystack.includes(query);
+        });
+
+        productGrid.innerHTML = filtered.map((product) => `
+          <article class="product-card" data-product-id="${product.id}">
+            <div class="product-media"><img src="${product.image}" alt="${product.name}"></div>
+            <div class="product-body">
+              <span class="franchise-badge" style="--badge-bg: ${product.badgeBg}; --badge-fg: ${product.badgeFg};">${product.franchise}</span>
+              <h3>${product.name}</h3>
+              <div class="price-row">
+                <span class="price">${formatPrice(product.price)}</span>
+                <button class="buy-button" type="button" data-add="${product.id}">Comprar</button>
+              </div>
+            </div>
+          </article>
+        `).join("");
+
+        productEmpty.style.display = filtered.length ? "none" : "block";
+      }
+
+      function renderHomePreview() {
+        homeProductPreview.innerHTML = products.slice(0, 4).map((product) => `
+          <article class="product-card">
+            <div class="product-media"><img src="${product.image}" alt="${product.name}"></div>
+            <div class="product-body">
+              <span class="franchise-badge" style="--badge-bg: ${product.badgeBg}; --badge-fg: ${product.badgeFg};">${product.franchise}</span>
+              <h3>${product.name}</h3>
+              <div class="price-row">
+                <span class="price">${formatPrice(product.price)}</span>
+                <button class="buy-button" type="button" data-add="${product.id}">Comprar</button>
+              </div>
+            </div>
+          </article>
+        `).join("");
+
+        homeEventPreview.innerHTML = events.slice(0, 4).map((event) => {
+          const date = new Date(`${event.date}T00:00:00`);
+          return `
+            <article class="event-card">
+              <div class="event-date"><div><strong>${String(date.getDate()).padStart(2, "0")}</strong><span>Jul</span></div></div>
+              <div>
+                <div class="event-meta"><span>${event.franchise}</span><span>${event.seats}</span></div>
+                <h3>${event.name}</h3>
+                <button class="event-signup" type="button">Apuntarme</button>
+                <div class="event-bottom"><span>${event.time}</span><span class="event-price">${event.price}</span></div>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      categoryButtons.forEach((button) => {
+        button.addEventListener("click", () => setCategory(button.dataset.category));
+      });
+
+      document.querySelectorAll(".category-link").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          setCategory(link.dataset.category);
+          setActiveView("shop", "#tienda");
+        });
+      });
+
+      const showAllProducts = document.querySelector("#showAllProducts");
+      if (showAllProducts) {
+        showAllProducts.addEventListener("click", () => {
+          shopSearch.value = "";
+          setCategory("all");
+          setActiveView("shop", "#tienda");
+        });
+      }
+
+      shopSearch.addEventListener("input", renderProducts);
+
+      productGrid.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-add]");
+        if (!button) return;
+        addToCart(button.dataset.add);
+        openCart();
+      });
+
+      homeProductPreview.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-add]");
+        if (!button) return;
+        addToCart(button.dataset.add);
+        openCart();
+      });
+
+      function addToCart(id) {
+        const line = cart.find((item) => item.id === id);
+        if (line) {
+          line.qty += 1;
+        } else {
+          cart.push({ id, qty: 1 });
+        }
+        renderCart();
+      }
+
+      function updateQty(id, delta) {
+        cart = cart.map((item) => item.id === id ? { ...item, qty: item.qty + delta } : item).filter((item) => item.qty > 0);
+        renderCart();
+      }
+
+      function renderCart() {
+        if (!cart.length) {
+          cartItems.innerHTML = `<p class="cart-empty">Todavia no hay productos. Filtra la tienda, añade algo y esta bandeja se actualiza al momento.</p>`;
+        } else {
+          cartItems.innerHTML = cart.map((item) => {
+            const product = products.find((entry) => entry.id === item.id);
+            return `
+              <div class="cart-item">
+                <img src="${product.image}" alt="">
+                <div>
+                  <strong>${product.name}</strong>
+                  <span>${formatPrice(product.price)}</span>
+                </div>
+                <div class="qty-controls" aria-label="Cantidad de ${product.name}">
+                  <button type="button" data-qty="${product.id}" data-delta="-1">−</button>
+                  <strong>${item.qty}</strong>
+                  <button type="button" data-qty="${product.id}" data-delta="1">+</button>
+                </div>
+              </div>
+            `;
+          }).join("");
+        }
+
+        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        const total = cart.reduce((sum, item) => {
+          const product = products.find((entry) => entry.id === item.id);
+          return sum + product.price * item.qty;
+        }, 0);
+        cartCounts.forEach((count) => { count.textContent = totalQty; });
+        cartTotal.textContent = formatPrice(total);
+      }
+
+      cartItems.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-qty]");
+        if (!button) return;
+        updateQty(button.dataset.qty, Number(button.dataset.delta));
+      });
+
+      function openCart() {
+        document.body.classList.add("cart-open");
+        cartDrawer.setAttribute("aria-hidden", "false");
+      }
+
+      function closeCart() {
+        document.body.classList.remove("cart-open");
+        cartDrawer.setAttribute("aria-hidden", "true");
+      }
+
+      document.querySelectorAll(".cart-trigger").forEach((button) => {
+        button.addEventListener("click", openCart);
+      });
+
+      document.querySelectorAll("[data-cart-close]").forEach((button) => {
+        button.addEventListener("click", closeCart);
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeCart();
+      });
+
+      function renderCalendar() {
+        const weekdays = ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"];
+        calendarWeekdays.innerHTML = weekdays.map((day) => `<div class="calendar-weekday">${day}</div>`).join("");
+
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const year = shownMonth.getFullYear();
+        const month = shownMonth.getMonth();
+        calendarTitle.textContent = `${monthNames[month]} ${year}`;
+
+        const firstDay = new Date(year, month, 1);
+        const offset = (firstDay.getDay() + 6) % 7;
+        const start = new Date(year, month, 1 - offset);
+        const cells = [];
+
+        for (let i = 0; i < 42; i += 1) {
+          const date = new Date(start);
+          date.setDate(start.getDate() + i);
+          const iso = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+          const dayEvents = events.filter((event) => event.date === iso);
+          cells.push(`
+            <div class="calendar-day ${date.getMonth() === month ? "" : "is-muted"}">
+              <span class="day-number">${date.getDate()}</span>
+              ${dayEvents.map((event) => `
+                <a class="calendar-event" href="#eventos">
+                  ${event.franchise}
+                  <small>${event.time} · ${event.price}</small>
+                </a>
+              `).join("")}
+            </div>
+          `);
+        }
+        calendarGrid.innerHTML = cells.join("");
+      }
+
+      document.querySelector("#prevMonth").addEventListener("click", () => {
+        shownMonth = new Date(shownMonth.getFullYear(), shownMonth.getMonth() - 1, 1);
+        renderCalendar();
+      });
+
+      document.querySelector("#nextMonth").addEventListener("click", () => {
+        shownMonth = new Date(shownMonth.getFullYear(), shownMonth.getMonth() + 1, 1);
+        renderCalendar();
+      });
+
+      document.querySelector("#todayMonth").addEventListener("click", () => {
+        shownMonth = new Date(2026, 6, 1);
+        renderCalendar();
+      });
+
+      renderProducts();
+      renderHomePreview();
+      renderCart();
+      renderCalendar();
+      setActiveView(viewFromHash(window.location.hash), window.location.hash || "#inicio", false);
+      window.addEventListener("popstate", () => {
+        setActiveView(viewFromHash(window.location.hash), window.location.hash || "#inicio", false);
+      });
+    </script>
+  </body>
+</html>
